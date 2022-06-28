@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Freedom Clock</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
+
+			time {
+				display: inline-block;
+				font-family: monospace;
+				font-size: 12em;
+			}
+	
+			section {
+				width: 100vw;
+				height: 100vh;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+			}
+		</style>
+		<script>
+			function init()
+			{
+				setInterval(update, 100);
+				update();
+			}
+
+			function update()
+			{
+				let time = document.querySelector("time");
+				let now = new Date();
+				let m = time.querySelector(".m");
+				let s = time.querySelector(".s");
+				let h = time.querySelector(".h");
+				time.setAttribute("datetime", now.toISOString());
+				m.innerHTML = String(now.getMinutes()).padStart(2, '0');
+				s.innerHTML = String(now.getSeconds()).padStart(2, '0');
+				h.innerHTML = String(now.getHours()).padStart(2, '0');
+			}
+
+			document.addEventListener("DOMContentLoaded", init);
+		</script>
+	</head>
+	<body>
+		<section id="clock">
+			<div class="content">
+				<time><span class="m"></span>:<span class="s"></span>:<span class="h"></span></time>
+				<p><a href="#why">What the fuck?</a></p>
+			</div>
+		</section>
+		<section id="why">
+			<div class="content">
+				<h2>Confused?</h2>
+				<p>Does your brain hurt? Do you find this way of displaying the time unintuitive or outright stupid?</p>
+				<p>Well, now you know how the rest of the world feels when they see the American date format.</p>
+				<p>This time format follows the exact same "logic".</p>
+				<p><a href="#clock">Let me see again...</a></p>
+			</div>
+		</section>
+	</body>
+</html>
