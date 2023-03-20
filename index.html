@@ -2,20 +2,55 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Freedom Clock</title>
 		<style>
+			:root {
+				--led-on:  #00ff00;
+				--led-off: #002000;
+				--clock:   #111111;
+			}
+			
+			html {
+				width: 100%;
+				height: 100%;
+			}
+			
 			body {
+				min-width: 20rem;
 				margin: 0;
 				padding: 0;
 				color: #ddd;
 				background-color: #333;
 				font-family: sans-serif;
+				
+				background-image: url("freedom.jpg");
+				background-size: cover;
+				background-position: center center;				
 			}
 
 			time {
-				display: inline-block;
-				font-family: monospace;
-				font-size: 16vw;
+				display: flex;
+				width: 70vw;
+				max-width: 64rem;
+				min-width: 16rem;
+				padding: 2vw 2.5vw;
+				border-radius: 1vw;
+				background-color: var(--clock);
+			}
+			
+			time > svg {
+				width: auto;
+				transform: skew(-7deg);
+			}
+			
+			time .separator {
+
+				margin: 0 -2%;
+			}
+			
+			time .sep {
+				fill: var(--led-on);
 			}
 	
 			a, a:hover, a:active, a:focus {
@@ -25,16 +60,41 @@
 			}
 			
 			section {
-				width: 100vw;
+				width: 100%;
 				height: 100vh;
 
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				text-align: center;
+				
+				backdrop-filter: blur(.5rem);
 			}
+			
 		</style>
 		<script>
+			function set_digit(ele, digit)
+			{
+				let digits = [
+				    [1,1,1,1,1,1,0], // 0
+					[0,1,1,0,0,0,0], // 1
+					[1,1,0,1,1,0,1], // 2
+					[1,1,1,1,0,0,1], // 3
+					[0,1,1,0,0,1,1], // 4
+					[1,0,1,1,0,1,1], // 5
+					[1,0,1,1,1,1,1], // 6
+					[1,1,1,0,0,0,0], // 7
+					[1,1,1,1,1,1,1], // 8
+					[1,1,1,1,0,1,1], // 9
+				];
+				
+				for (let i=0; i<7; ++i)
+				{
+					let segment = ele.querySelector(".s" + i);
+					segment.style.fill = digits[digit % 10][i] ? "var(--led-on)" : "var(--led-off)";
+				}
+			}
+			
 			function init()
 			{
 				setInterval(update, 100);
@@ -45,13 +105,20 @@
 			{
 				let time = document.querySelector("time");
 				let now = new Date();
-				let m = time.querySelector(".m");
-				let s = time.querySelector(".s");
-				let h = time.querySelector(".h");
+				let m0 = time.querySelector(".m.d0");
+				let m1 = time.querySelector(".m.d1");
+				let s0 = time.querySelector(".s.d0");
+				let s1 = time.querySelector(".s.d1");
+				let h0 = time.querySelector(".h.d0");
+				let h1 = time.querySelector(".h.d1");
 				time.setAttribute("datetime", now.toISOString());
-				m.innerHTML = String(now.getMinutes()).padStart(2, '0');
-				s.innerHTML = String(now.getSeconds()).padStart(2, '0');
-				h.innerHTML = String(now.getHours()).padStart(2, '0');
+				
+				set_digit(m0, Math.trunc(now.getMinutes() / 10));
+				set_digit(m1, now.getMinutes());
+				set_digit(s0, Math.trunc(now.getSeconds() / 10));
+				set_digit(s1, now.getSeconds());
+				set_digit(h0, Math.trunc(now.getHours() / 10));
+				set_digit(h1, now.getHours());
 			}
 
 			document.addEventListener("DOMContentLoaded", init);
@@ -60,7 +127,92 @@
 	<body>
 		<section id="clock">
 			<div class="content">
-				<time><span class="m"></span>:<span class="s"></span>:<span class="h"></span></time>
+				<time>
+					<svg version="1.1" class="minutes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="m d0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<path class="s0" d="m47 5-5 10H15L5 10l6-5Z"/>
+							<path class="s1" d="m54.5 46-3 3.5-7-6V15l5-10 5 6z"/>
+							<path class="s2" d="m54.5 55.5-3-3.5-7 6v27l5 10 5-6Z"/>
+							<path class="s3" d="m47 95-5-10H15L5 90l6 5Z"/>
+							<path class="s4" d="m5 87.5 10-5V58l-7-6-3 3.5Z"/>
+							<path class="s5" d="m5 12.5 10 5v26l-7 6L5 46Z"/>
+							<path class="s6" d="M16.5 45.25H43l6.5 5.5-6.5 5.5H16.5l-6.5-5.5Z"/>
+						</g>
+					</svg>
+					<svg version="1.1" class="minutes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="m d1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<path class="s0" d="m47 5-5 10H15L5 10l6-5Z"/>
+							<path class="s1" d="m54.5 46-3 3.5-7-6V15l5-10 5 6z"/>
+							<path class="s2" d="m54.5 55.5-3-3.5-7 6v27l5 10 5-6Z"/>
+							<path class="s3" d="m47 95-5-10H15L5 90l6 5Z"/>
+							<path class="s4" d="m5 87.5 10-5V58l-7-6-3 3.5Z"/>
+							<path class="s5" d="m5 12.5 10 5v26l-7 6L5 46Z"/>
+							<path class="s6" d="M16.5 45.25H43l6.5 5.5-6.5 5.5H16.5l-6.5-5.5Z"/>
+						</g>
+					</svg>
+				
+					<svg version="1.1" class="separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="sep">
+							<circle class="t" cx="30" cy="30" r="9.52"/>
+							<circle class="b" cx="30" cy="70" r="9.52"/>
+						</g>
+					</svg>
+					
+					<svg version="1.1" class="seconds" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="s d0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<path class="s0" d="m47 5-5 10H15L5 10l6-5Z"/>
+							<path class="s1" d="m54.5 46-3 3.5-7-6V15l5-10 5 6z"/>
+							<path class="s2" d="m54.5 55.5-3-3.5-7 6v27l5 10 5-6Z"/>
+							<path class="s3" d="m47 95-5-10H15L5 90l6 5Z"/>
+							<path class="s4" d="m5 87.5 10-5V58l-7-6-3 3.5Z"/>
+							<path class="s5" d="m5 12.5 10 5v26l-7 6L5 46Z"/>
+							<path class="s6" d="M16.5 45.25H43l6.5 5.5-6.5 5.5H16.5l-6.5-5.5Z"/>
+						</g>
+					</svg>
+					<svg version="1.1" class="seconds" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="s d1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<path class="s0" d="m47 5-5 10H15L5 10l6-5Z"/>
+							<path class="s1" d="m54.5 46-3 3.5-7-6V15l5-10 5 6z"/>
+							<path class="s2" d="m54.5 55.5-3-3.5-7 6v27l5 10 5-6Z"/>
+							<path class="s3" d="m47 95-5-10H15L5 90l6 5Z"/>
+							<path class="s4" d="m5 87.5 10-5V58l-7-6-3 3.5Z"/>
+							<path class="s5" d="m5 12.5 10 5v26l-7 6L5 46Z"/>
+							<path class="s6" d="M16.5 45.25H43l6.5 5.5-6.5 5.5H16.5l-6.5-5.5Z"/>
+						</g>
+					</svg>
+				
+					<svg version="1.1" class="separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="sep">
+							<circle class="t" cx="30" cy="30" r="9.52"/>
+							<circle class="b" cx="30" cy="70" r="9.52"/>
+						</g>
+					</svg>
+				
+					<svg version="1.1" class="hours" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="h d0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<path class="s0" d="m47 5-5 10H15L5 10l6-5Z"/>
+							<path class="s1" d="m54.5 46-3 3.5-7-6V15l5-10 5 6z"/>
+							<path class="s2" d="m54.5 55.5-3-3.5-7 6v27l5 10 5-6Z"/>
+							<path class="s3" d="m47 95-5-10H15L5 90l6 5Z"/>
+							<path class="s4" d="m5 87.5 10-5V58l-7-6-3 3.5Z"/>
+							<path class="s5" d="m5 12.5 10 5v26l-7 6L5 46Z"/>
+							<path class="s6" d="M16.5 45.25H43l6.5 5.5-6.5 5.5H16.5l-6.5-5.5Z"/>
+						</g>
+					</svg>
+					<svg version="1.1" class="hours" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+						<g class="h d1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<path class="s0" d="m47 5-5 10H15L5 10l6-5Z"/>
+							<path class="s1" d="m54.5 46-3 3.5-7-6V15l5-10 5 6z"/>
+							<path class="s2" d="m54.5 55.5-3-3.5-7 6v27l5 10 5-6Z"/>
+							<path class="s3" d="m47 95-5-10H15L5 90l6 5Z"/>
+							<path class="s4" d="m5 87.5 10-5V58l-7-6-3 3.5Z"/>
+							<path class="s5" d="m5 12.5 10 5v26l-7 6L5 46Z"/>
+							<path class="s6" d="M16.5 45.25H43l6.5 5.5-6.5 5.5H16.5l-6.5-5.5Z"/>
+						</g>
+					</svg>
+				</time>
+				
+				<!-- <time><span class="m"></span>:<span class="s"></span>:<span class="h"></span></time> -->
 				<p><a href="#why">What the fuck?</a></p>
 			</div>
 		</section>
