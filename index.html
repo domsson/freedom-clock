@@ -9,6 +9,8 @@
 				--led-on:  #00ff00;
 				--led-off: #002000;
 				--clock:   #111111;
+				--us-red:  #b22234;
+				--us-blue: #3c3b6e;
 			}
 			
 			html {
@@ -22,11 +24,15 @@
 				padding: 0;
 				color: #ddd;
 				background-color: #333;
-				font-family: sans-serif;
-				
-				background-image: url("freedom.jpg");
+				font-family: sans-serif;	
+				background-image: url("img/freedom.jpg");
 				background-size: cover;
-				background-position: center center;				
+				background-position: top center;
+				background-attachment: fixed;
+			}
+			
+			.page {
+				backdrop-filter: blur(.5rem);
 			}
 
 			time {
@@ -35,8 +41,9 @@
 				max-width: 64rem;
 				min-width: 16rem;
 				padding: 2vw 2.5vw;
-				border-radius: 1vw;
 				background-color: var(--clock);
+				border-radius: 1vw;
+				box-shadow: 0 0 1rem var(--clock);
 			}
 			
 			time > svg {
@@ -56,19 +63,31 @@
 			a, a:hover, a:active, a:focus {
 				color: inherit;
 				text-decoration: none;
-				border-bottom: 1px dashed #ddd;
+			}
+			
+			h1 {
+				text-shadow: 0 0 1rem var(--clock);
 			}
 			
 			section {
 				width: 100%;
 				height: 100vh;
-
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				text-align: center;
-				
-				backdrop-filter: blur(.5rem);
+			}
+			
+			.button {
+				display: inline-block;
+				margin: 2vw;
+				padding: 1.25vw 1.75vw;
+				background-color: var(--us-red);
+				border-radius: .5vw;
+			}
+			
+			#why {
+				background-color: var(--clock);
 			}
 			
 		</style>
@@ -105,28 +124,24 @@
 			{
 				let time = document.querySelector("time");
 				let now = new Date();
-				let m0 = time.querySelector(".m.d0");
-				let m1 = time.querySelector(".m.d1");
-				let s0 = time.querySelector(".s.d0");
-				let s1 = time.querySelector(".s.d1");
-				let h0 = time.querySelector(".h.d0");
-				let h1 = time.querySelector(".h.d1");
 				time.setAttribute("datetime", now.toISOString());
 				
-				set_digit(m0, Math.trunc(now.getMinutes() / 10));
-				set_digit(m1, now.getMinutes());
-				set_digit(s0, Math.trunc(now.getSeconds() / 10));
-				set_digit(s1, now.getSeconds());
-				set_digit(h0, Math.trunc(now.getHours() / 10));
-				set_digit(h1, now.getHours());
+				set_digit(time.querySelector(".m.d0"), Math.trunc(now.getMinutes() / 10));
+				set_digit(time.querySelector(".m.d1"), now.getMinutes());
+				set_digit(time.querySelector(".s.d0"), Math.trunc(now.getSeconds() / 10));
+				set_digit(time.querySelector(".s.d1"), now.getSeconds());
+				set_digit(time.querySelector(".h.d0"), Math.trunc(now.getHours() / 10));
+				set_digit(time.querySelector(".h.d1"), now.getHours());
 			}
 
 			document.addEventListener("DOMContentLoaded", init);
 		</script>
 	</head>
 	<body>
+		<div class="page">
 		<section id="clock">
 			<div class="content">
+				<h1>The Freedom Clock</h1>
 				<time>
 					<svg version="1.1" class="minutes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
 						<g class="m d0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
@@ -212,8 +227,7 @@
 					</svg>
 				</time>
 				
-				<!-- <time><span class="m"></span>:<span class="s"></span>:<span class="h"></span></time> -->
-				<p><a href="#why">What the fuck?</a></p>
+				<a class="button" href="#why"><span>What the fuck?</span></a>
 			</div>
 		</section>
 		<section id="why">
@@ -222,8 +236,9 @@
 				<p>Does your brain hurt? Do you find this way of displaying the time unintuitive or outright stupid?</p>
 				<p>Well, now you know how the rest of the world feels when they see the American date format.</p>
 				<p>This time format follows the exact same "logic".</p>
-				<p><a href="#clock">Let me see again...</a></p>
+				<a class="button" href="#clock"><span>Let me see again...</span></a>
 			</div>
 		</section>
+		</div>
 	</body>
 </html>

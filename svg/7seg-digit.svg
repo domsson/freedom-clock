@@ -1,0 +1,11 @@
+<svg version="1.1" class="minutes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+	<g class="m d1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+		<path class="s0" d="m47 5-5 10H15L5 10l6-5Z"/>
+		<path class="s1" d="m54.5 46-3 3.5-7-6V15l5-10 5 6z"/>
+		<path class="s2" d="m54.5 55.5-3-3.5-7 6v27l5 10 5-6Z"/>
+		<path class="s3" d="m47 95-5-10H15L5 90l6 5Z"/>
+		<path class="s4" d="m5 87.5 10-5V58l-7-6-3 3.5Z"/>
+		<path class="s5" d="m5 12.5 10 5v26l-7 6L5 46Z"/>
+		<path class="s6" d="M16.5 45.25H43l6.5 5.5-6.5 5.5H16.5l-6.5-5.5Z"/>
+	</g>
+</svg>
