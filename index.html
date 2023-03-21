@@ -14,6 +14,14 @@
 			}
 			
 			html {
+				box-sizing: border-box;
+			}
+			
+			*, *:before, *:after {
+				box-sizing: inherit;
+			}
+
+			html {
 				width: 100%;
 				height: 100%;
 			}
@@ -72,6 +80,7 @@
 			section {
 				width: 100%;
 				height: 100vh;
+				padding: 1rem;
 				display: flex;
 				justify-content: center;
 				align-items: center;
