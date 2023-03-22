@@ -1,6 +1,6 @@
-<svg version="1.1" class="separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
-	<g class="sep">
-		<circle class="t" cx="30" cy="30" r="9.52"/>
-		<circle class="b" cx="30" cy="70" r="9.52"/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100">
+	<g>
+		<circle class="t" cx="30" cy="30" r="10"/>
+		<circle class="b" cx="30" cy="70" r="10"/>
 	</g>
 </svg>
